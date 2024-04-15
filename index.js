@@ -1,14 +1,20 @@
 const express = require("express");
-const { run } = require("./db");
-const app = express();
+const mongoose = require("mongoose");
 const port = 3000;
+const app = express();
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
-
-run().catch(console.dir);
+mongoose
+  .connect(
+    "mongodb+srv://admin:admin@crudapi.7noh72e.mongodb.net/CRUD-COLLECTION?retryWrites=true&w=majority&appName=CRUDAPI"
+  )
+  .then(() => {
+    console.log("Connected to DB!");
+    app.listen(port, () => {
+      console.log(`App listening at http://localhost:${port}`);
+    });
+  })
+  .catch((err) => console.log(err));
