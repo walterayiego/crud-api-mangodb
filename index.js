@@ -4,8 +4,6 @@ const Product = require("./models/product.model.js");
 const port = 3000;
 const app = express();
 
-const { auth, unsubscribe, createUser, sigin, userData } = require("./firebase.js");
-
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -14,7 +12,6 @@ app.get("/", (req, res) => {
 
 app.post("/api/products", async (req, res) => {
   try {
-    console.log(req.body, "body");
     const product = await Product.create(req.body);
     res.status(201).json(product);
   } catch (error) {
@@ -25,13 +22,8 @@ app.post("/api/products", async (req, res) => {
 
 app.get("/api/products", async (req, res) => {
   try {
-    
     const products = await Product.find({});
-    await sigin("test2@gmail.com", "test2@gmail.com");
-    console.log(userData, "logged in get");
-
-    res.status(200).json(userData);
-
+    res.status(200).json(products);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -49,4 +41,3 @@ mongoose
     });
   })
   .catch((err) => console.log(err));
- 
