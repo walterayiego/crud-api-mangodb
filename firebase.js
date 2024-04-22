@@ -41,32 +41,25 @@ const unsubscribe = auth.onAuthStateChanged((currentUser) => {
   }
 });
 
-const createUser = () => {
-  createUserWithEmailAndPassword(email, password)
+const createUser = async () => {
+  await createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       // Signed in
-      var user = userCredential.user;
-      // ...
     })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ..
-    });
+    .catch((error) => console.log(error));
 };
 
 const sigin = async (email, password) => {
-  return signInWithEmailAndPassword(auth, email, password)
+  await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      const user = userCredential.user;
-      console.log("Success!! Signed In");
-      return user
+      // Signed in
+      userData.uid = userCredential.user.uid;
+
+      console.log("Success!! Signed In", userData);
     })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode)
-    });
+    .catch((error) => console.log(error));
 };
 
-module.exports = { auth, unsubscribe, createUser, sigin };
+const userData = {};
+
+module.exports = { auth, unsubscribe, createUser, sigin, userData };

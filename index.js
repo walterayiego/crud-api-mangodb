@@ -4,9 +4,7 @@ const Product = require("./models/product.model.js");
 const port = 3000;
 const app = express();
 
-const { auth, unsubscribe, createUser, sigin } = require("./firebase.js");
-
-sigin("test2@gmail.com", "test2@gmail.com");
+const { auth, unsubscribe, createUser, sigin, userData } = require("./firebase.js");
 
 app.use(express.json());
 
@@ -16,8 +14,9 @@ app.get("/", (req, res) => {
 
 app.post("/api/products", async (req, res) => {
   try {
+    console.log(req.body, "body");
     const product = await Product.create(req.body);
-    res.status(201).json(sigin("test2@gmail.com", "test2@gmail.com"));
+    res.status(201).json(product);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -26,8 +25,13 @@ app.post("/api/products", async (req, res) => {
 
 app.get("/api/products", async (req, res) => {
   try {
+    
     const products = await Product.find({});
-    res.status(200).json(products);
+    await sigin("test2@gmail.com", "test2@gmail.com");
+    console.log(userData, "logged in get");
+
+    res.status(200).json(userData);
+
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
