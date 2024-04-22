@@ -4,6 +4,10 @@ const Product = require("./models/product.model.js");
 const port = 3000;
 const app = express();
 
+const { auth, unsubscribe, createUser, sigin } = require("./firebase.js");
+
+sigin("test2@gmail.com", "test2@gmail.com");
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -13,7 +17,7 @@ app.get("/", (req, res) => {
 app.post("/api/products", async (req, res) => {
   try {
     const product = await Product.create(req.body);
-    res.status(201).json(product);
+    res.status(201).json(sigin("test2@gmail.com", "test2@gmail.com"));
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -34,10 +38,11 @@ mongoose
   .connect(
     "mongodb+srv://admin:admin@crudapi.7noh72e.mongodb.net/CRUD-COLLECTION?retryWrites=true&w=majority&appName=CRUDAPI"
   )
-  .then(() => {
+  .then(async () => {
     console.log("Connected to DB!");
     app.listen(port, () => {
       console.log(`App listening at http://localhost:${port}`);
     });
   })
   .catch((err) => console.log(err));
+ 

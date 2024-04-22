@@ -4,14 +4,14 @@
   "description": "A simple CRUD (Create, Read, Update, Delete) API project utilizing MongoDB as the database. Implements basic API endpoints for managing data operations efficiently",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
+    "firebase": "^10.11.0",
     "mongodb": "^6.5.0",
     "mongoose": "^8.3.1"
   }
