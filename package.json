@@ -4,8 +4,8 @@
   "description": "A simple CRUD (Create, Read, Update, Delete) API project utilizing MongoDB as the database. Implements basic API endpoints for managing data operations efficiently",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
