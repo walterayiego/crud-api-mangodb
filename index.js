@@ -1,13 +1,23 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Product = require("./models/product.model.js");
-const port = 3000;
+const port = 4000;
 const app = express();
 
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
+});
+
+app.get("/api/product/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error", error: error });
+  }
 });
 
 app.post("/api/products", async (req, res) => {
