@@ -44,11 +44,28 @@ app.put("/api/product/:id", async (req, res) => {
     console.log(product);
 
     // res.status(404).json({ message: "Product not found" });
-    
+
     const updatedProduct = await Product.findById(id);
-    
-    res.status(200).json(updatedProduct);
+
     // Send updated product to the client
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error", error: error });
+  }
+});
+
+// Delete Data
+app.delete("/api/product/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findByIdAndDelete(id);
+
+    // Check for errors before sending updated product
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    // Send updated product to the client
+    res.status(200).json({ message: "Product deleted successfully!" });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error", error: error });
   }
