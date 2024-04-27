@@ -1,86 +1,22 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const Product = require("./models/product.model.js");
+// const Product = require("./models/product.model.js");
+const productRoutes = require("./routes/products.route.js");
 const port = 4000;
 const app = express();
 
+// middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+//routes
+
+app.use("/api/products", productRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.get("/api/product/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const product = await Product.findById(id);
-    res.status(200).json(product);
-  } catch (error) {
-    res.status(500).json({ message: "Internal Server Error", error: error });
-  }
-});
-
-// POST DATA TO DB THROUGH THIS API
-app.post("/api/products", async (req, res) => {
-  try {
-    const product = await Product.create(req.body);
-    res.status(201).json(product);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
-
-// Update Data
-app.put("/api/product/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const product = await Product.findByIdAndUpdate(id, req.body);
-
-    // Check for errors before sending updated product
-    if (!product) {
-      return res.status(404).json({ message: "Product not found" });
-    }
-    console.log(product);
-
-    // res.status(404).json({ message: "Product not found" });
-
-    const updatedProduct = await Product.findById(id);
-
-    // Send updated product to the client
-    res.status(200).json(updatedProduct);
-  } catch (error) {
-    res.status(500).json({ message: "Internal Server Error", error: error });
-  }
-});
-
-// Delete Data
-app.delete("/api/product/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const product = await Product.findByIdAndDelete(id);
-
-    // Check for errors before sending updated product
-    if (!product) {
-      return res.status(404).json({ message: "Product not found" });
-    }
-    // Send updated product to the client
-    res.status(200).json({ message: "Product deleted successfully!" });
-  } catch (error) {
-    res.status(500).json({ message: "Internal Server Error", error: error });
-  }
-});
-
-app.get("/api/products", async (req, res) => {
-  try {
-    const products = await Product.find({});
-    res.status(200).json(products);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
 
 mongoose
   .connect(
